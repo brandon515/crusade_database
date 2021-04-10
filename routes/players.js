@@ -51,7 +51,14 @@ router.post('/:email/:password/:displayname', async function(req, res) {
     };
 });
 
+// CREATE not allowed
+router.post('/' function(req, res) {
+    res.sendStatus(405);
+});
+
+// UPDATE not allowed
 router.put('/', function(req, res) {
+    res.sendStatus(405);
 });
 
 module.exports = router;
