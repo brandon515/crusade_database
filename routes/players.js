@@ -5,9 +5,9 @@ var crypt = require('../crypt');
 var jwt = require('jsonwebtoken');
 var config = require('../config');
 
-// Token verification middleware
-router.put('/token/:token/*', function(req, res, next) {
-    jwt.verify(req.params['token'], config.initTokenSecret, function(err, decoded) {
+
+var verification = function(req, res, next) {
+    jwt.verify(req.body['token'], config.initTokenSecret, function(err, decoded) {
         if(err){
             console.log(err);
             res.sendStatus(401);
@@ -16,7 +16,12 @@ router.put('/token/:token/*', function(req, res, next) {
             next();
         }
     });
-});
+};
+
+// Token verification middleware
+router.put('/*', verification);
+router.delete('/*', verification);
+
 
 // READ all players
 router.get('/', function(req, res) {
@@ -78,13 +83,11 @@ router.get('/email/:email/password/:password', async function(req,res) {
 router.post('/email/:email/password/:password/displayname/:displayname', async function(req, res) {
     try{
         var hash = await crypt.hash(req.params['password'])
-        var queRes = await db.query('INSERT INTO players(display_name,email,password) VALUES ($1, $2, $3)', 
+        var queRes = await db.query('INSERT INTO players(display_name,email,password) VALUES ($1, $2, $3) RETURNING player_id', 
             [req.params['displayname'], req.params['email'], hash]);
-        var que = await db.query('SELECT (player_id) FROM players WHERE email=$1',
-            [req.params['email']]);
         res.set({
             'Content-Type': 'json',
-            'location' : req.baseUrl+'/'+que.rows[0].player_id,
+            'location' : req.baseUrl+'/'+queRes.rows[0].player_id,
         }).sendStatus(201);
     }catch(err){
         if(err.code === '23505'){
@@ -107,10 +110,14 @@ router.put('/', function(req, res) {
 });
 
 // UPDATE user's email address
-router.put('/token/:token/email/:email', async function(req, res) {
+router.put('/email', async function(req, res) {
+    if(!req.body['email']){
+        res.sendStatus(404);
+        return;
+    }
     try{
         var queRes = await db.query('UPDATE players SET email=$1 WHERE player_id=$2',
-            [req.params['email'], req.token.id]);
+            [req.body['email'], req.token.id]);
         res.sendStatus(200);
     }catch(err){
         console.log(err);
@@ -119,10 +126,14 @@ router.put('/token/:token/email/:email', async function(req, res) {
 });
 
 // UPDATE user's display name
-router.put('/token/:token/displayname/:displayname', async function(req, res) {
+router.put('/displayname', async function(req, res) {
+    if(!req.body['displayname']){
+        res.sendStatus(404);
+        return;
+    }
     try{
         var queRes = await db.query('UPDATE players SET display_name=$1 WHERE player_id=$2',
-            [req.params['displayname'], req.token.id]);
+            [req.body['displayname'], req.token.id]);
         res.sendStatus(200);
     }catch(err){
         console.log(err);
@@ -131,9 +142,13 @@ router.put('/token/:token/displayname/:displayname', async function(req, res) {
 });
 
 // UPDATE user's password
-router.put('/token/:token/password/:password', async function(req, res) {
+router.put('/password', async function(req, res) {
+    if(!req.body['password']){
+        res.sendStatus(404);
+        return;
+    }
     try{
-        var hash = await crypt.hash(req.params['password']);
+        var hash = await crypt.hash(req.body['password']);
         var queRes = await db.query('UPDATE players SET password=$1 WHERE player_id=$2',
             [hash, req.token.id]);
         res.sendStatus(200);
@@ -144,10 +159,10 @@ router.put('/token/:token/password/:password', async function(req, res) {
 });
 
 // DELETE user's profile
-router.delete('/token/:token/id/:id', async function(req, res) {
+router.delete('/delete', async function(req, res) {
     try{
         var queRes = await db.query('DELETE FROM players WHERE player_id=$1',
-            [req.params['id']]);
+            [req.token.id]);
     }catch(err){
         console.log(err);
         res.sendStatus(204);
