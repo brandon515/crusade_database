@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
-const db = require('../db');
-const crypt = require('../crypt');
-const jwt = require('jsonwebtoken');
+var db = require('../db');
+var crypt = require('../crypt');
+var jwt = require('jsonwebtoken');
 var config = require('../config');
 
 // Token verification middleware
