@@ -8,4 +8,8 @@ module.exports = {
         });
         return hash;
     },
+    verify: async function(hash, pass){
+        var verifyBool = await argon2.verify(hash,pass);
+        return verifyBool;
+    },
 }
