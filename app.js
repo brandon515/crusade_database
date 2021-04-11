@@ -9,6 +9,8 @@ var usersRouter = require('./routes/users');
 var playersRouter = require('./routes/players');
 var factionsRouter = require('./routes/factions');
 var supplyTypesRouter = require('./routes/supply_types');
+var rolesRouter = require('./routes/roles');
+var ranksRouter = require('./routes/ranks');
 
 var app = express();
 
@@ -27,6 +29,8 @@ app.use('/users', usersRouter);
 app.use('/players', playersRouter);
 app.use('/factions', factionsRouter);
 app.use('/supply_types', supplyTypesRouter);
+app.use('/roles', rolesRouter);
+app.use('/ranks', ranksRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
