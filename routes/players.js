@@ -34,7 +34,7 @@ router.get('/', function(req, res) {
 });
 
 // READ a specific player
-router.get('/id/:id', function(req, res) {
+router.get('/:id', function(req, res) {
     db.query('SELECT display_name,email FROM players WHERE player_id=$1',
         [req.params.id])
     .then(result => {
@@ -50,7 +50,8 @@ router.get('/id/:id', function(req, res) {
 });
 
 // READ a token for the email/password combo (this is logging in)
-router.get('/email/:email/password/:password', async function(req,res) {
+router.get('/token/email/:email/password/:password', async function(req,res) {
+    console.log("here");
     try{
         var result = await db.query('SELECT player_id,password FROM players WHERE email=$1',
             [req.params['email']]);
@@ -80,11 +81,11 @@ router.get('/email/:email/password/:password', async function(req,res) {
 });
 
 // CREATE a new player, email uniqueness is promised at the db level
-router.post('/email/:email/password/:password/displayname/:displayname', async function(req, res) {
+router.post('/create', async function(req, res) {
     try{
-        var hash = await crypt.hash(req.params['password'])
+        var hash = await crypt.hash(req.body['password'])
         var queRes = await db.query('INSERT INTO players(display_name,email,password) VALUES ($1, $2, $3) RETURNING player_id', 
-            [req.params['displayname'], req.params['email'], hash]);
+            [req.body['displayname'], req.body['email'], hash]);
         res.set({
             'Content-Type': 'json',
             'location' : req.baseUrl+'/'+queRes.rows[0].player_id,
@@ -110,47 +111,17 @@ router.put('/', function(req, res) {
 });
 
 // UPDATE user's email address
-router.put('/email', async function(req, res) {
-    if(!req.body['email']){
+router.put('/update', async function(req, res) {
+    if(!req.body['key'] || !req.body['value']){
         res.sendStatus(404);
+        return;
+    }else if(req.body['key'] === 'player_id'){
+        res.sendStatus(405);
         return;
     }
     try{
-        var queRes = await db.query('UPDATE players SET email=$1 WHERE player_id=$2',
-            [req.body['email'], req.token.id]);
-        res.sendStatus(200);
-    }catch(err){
-        console.log(err);
-        res.sendStatus(204);
-    }
-});
-
-// UPDATE user's display name
-router.put('/displayname', async function(req, res) {
-    if(!req.body['displayname']){
-        res.sendStatus(404);
-        return;
-    }
-    try{
-        var queRes = await db.query('UPDATE players SET display_name=$1 WHERE player_id=$2',
-            [req.body['displayname'], req.token.id]);
-        res.sendStatus(200);
-    }catch(err){
-        console.log(err);
-        res.sendStatus(404);
-    }
-});
-
-// UPDATE user's password
-router.put('/password', async function(req, res) {
-    if(!req.body['password']){
-        res.sendStatus(404);
-        return;
-    }
-    try{
-        var hash = await crypt.hash(req.body['password']);
-        var queRes = await db.query('UPDATE players SET password=$1 WHERE player_id=$2',
-            [hash, req.token.id]);
+        var queRes = await db.query('UPDATE players SET $1=$2 WHERE player_id=$3',
+            [req.body['key'], req.body['value'], req.token.id]);
         res.sendStatus(200);
     }catch(err){
         console.log(err);
