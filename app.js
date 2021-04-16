@@ -13,6 +13,9 @@ var ranksRouter = require('./routes/ranks');
 var forcesRouter = require('./routes/forces');
 var battlesRouter = require('./routes/battles');
 var unitsRouter = require('./routes/units');
+var goalsRouter = require('./routes/goals');
+var informationRouter = require('./routes/information');
+var victoriesRouter = require('./routes/victories');
 
 var app = express();
 
@@ -35,21 +38,13 @@ app.use('/ranks', ranksRouter);
 app.use('/forces', forcesRouter);
 app.use('/battles', battlesRouter);
 app.use('/units', unitsRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+app.use('/goals', goalsRouter);
+app.use('/information', informationRouter);
+app.use('/victories', victoriesRouter);
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+app.use(function(req, res, next) {
+  res.sendStatus(404);
 });
 
 module.exports = app;

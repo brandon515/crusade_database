@@ -70,12 +70,19 @@ router.get('/force/:id', async function(req, res) {
 // CREATE a new battle
 router.post('/create', async function(req, res) {
     try{
-        if(!req.body['id'] || !req.body['unit'] || !req.body['d_pstchic_powers'] || !req.body['d_ranged'] || !req.body['d_melee'] || !req.body['agenda_1'] || !req.body['agenda_2'] || !req.body['agenda_3'] || !req.body['victory']){
+        if(!req.body['unit'] || !req.body['d_psychic_powers'] || !req.body['d_ranged'] || !req.body['d_melee'] || !req.body['agenda_1'] || !req.body['agenda_2'] || !req.body['agenda_3'] || !req.body['victory']){
+            console.log(req.body);
             res.sendStatus(400);
             return;
         }
-        var queRes = db.query('INSERT INTO battles(unit,d_psychic_powers,d_ranged,d_melee,agenda_1,agenda_2,agenda_3,victory) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING battle_id',
-            [ req.body['unit'],req.body['d_pstchic_powers'],req.body['d_ranged'],req.body['d_melee'],req.body['agenda_1'],req.body['agenda_2'],req.body['agenda_3'],req.body['victory'] ]);
+        var verRes = await db.query('SELECT fo.player_id FROM units AS u LEFT JOIN forces AS fo ON (u.force=fo.force_id) WHERE u.unit_id=$1',
+            [ req.body['unit'] ]);
+        if(verRes.rows[0]['player_id'] != req.token['id']){
+            res.sendStatus(401);
+            return;
+        }
+        var inRes = await db.query('INSERT INTO battles(unit,d_psychic_powers,d_ranged,d_melee,agenda_1,agenda_2,agenda_3,victory) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING battle_id',
+            [ req.body['unit'],req.body['d_psychic_powers'],req.body['d_ranged'],req.body['d_melee'],req.body['agenda_1'],req.body['agenda_2'],req.body['agenda_3'],req.body['victory'] ]);
         res.set({
             'location' : req.baseUrl+'/'+inRes.rows[0].unit_id,
         }).sendStatus(201);
@@ -466,6 +473,29 @@ router.put('/subtract/agenda_3', async function(req, res) {
         var new_tally = tally-1;
         var updateRes = await db.query('UPDATE battles SET agenda_3=$1 WHERE battle_id=$2',
             [ new_tally, req.body['id'] ]);
+        res.sendStatus(200);
+    }catch(err){
+        console.log(err);
+        res.sendStatus(404);
+    }
+});
+
+// DELETE a battle
+router.delete('/delete', async function(req, res){
+    try{
+        if(!req.body['id']){
+            res.sendStatus(400);
+            return;
+        }
+
+        var queRes = await db.query('SELECT fo.player_id FROM battles as b LEFT JOIN forces AS fo ON (u.force=fo.force_id) LEFT JOIN units AS u ON (b.unit=u.unit_id) WHERE b.battle_id=$1',
+            [ req.body['id'] ]);
+        if(queRes.rows[0]['player_id'] != req.token['id']){
+            res.sendStatus(405);
+            return;
+        }
+        var queRes = await db.query('DELETE FROM units WHERE unit_id=$1',
+            [ req.body['id'] ]);
         res.sendStatus(200);
     }catch(err){
         console.log(err);
