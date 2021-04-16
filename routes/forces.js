@@ -1,30 +1,21 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../db');
-var jwt = require('jsonwebtoken');
 var config = require('../config');
 
-var verification = function(req, res, next) {
-    jwt.verify(req.body['token'], config.initTokenSecret, function(err, decoded) {
-            if(err){
-            console.log(err);
-            res.sendStatus(401);
-        }else{
-            req.token = decoded;
-            next();
-        }
-    });
-};
 
 // Token verification middleware
-router.post('/*', verification);
-router.delete('/*', verification);
-router.put('/*', verification);
+router.post('/*', config.verification);
+router.delete('/*', config.verification);
+router.put('/*', config.verification);
 
 // CREATE a new force (name, player_id) combos need to be unique
-router.post('/create',
-    async function(req, res) {
+router.post('/create', async function(req, res) {
         try{
+            if(!req.body['faction_id'] || !req.body['supply_type'] || !req.body['name'] ){
+                res.sendStatus(400);
+                return;
+            }
             var factionRes = await db.query('SELECT name FROM factions WHERE faction_id=$1',
                 [req.body['faction_id']]);
             var supplyRes = await db.query('SELECT name FROM supply_types WHERE type_id=$1',
@@ -35,10 +26,9 @@ router.post('/create',
             }else if(req.body['supply_type'] === '2'){ //power level
                 supply_limit = 50; //starting power level is 50 per the rule book
             }
-            var insertRes = await db.query('INSERT INTO forces(name,supply_limit,fluff,faction_id,player_id,supply_type) VALUES ($1,$2,$3,$4,$5,$6) RETURNING force_id',
-                [ req.body['name'], supply_limit, req.body['fluff'], req.body['faction_id'], req.token.id, req.body['supply_type'] ]); 
+            var insertRes = await db.query('INSERT INTO forces(name,supply_limit,faction_id,player_id,supply_type) VALUES ($1,$2,$3,$4,$5,$6) RETURNING force_id',
+                [ req.body['name'], supply_limit, req.body['faction_id'], req.token.id, req.body['supply_type'] ]); 
             res.set({
-                'Content-Type': 'json',
                 'location' : req.baseUrl+'/'+insertRes.rows[0].force_id,
             }).sendStatus(201);
         }catch(err){
@@ -50,8 +40,21 @@ router.post('/create',
 // READ all forces force_id, player_id, faction_id
 router.get('/', async function(req, res) {
     try{
+        //SELECT fo.force_id,fo.name,fo.battle_tally,fo.battles_won,fo.requisition_points,fo.supply_limit,fo.supply_used,fo.faction_id,fa.name as faction,fo.player_id as owner_id,pl.display_name as owner,su.name as supply_type,ARRAY(SELECT goal_id FROM goals WHERE force=fo.force_id ORDER BY created_at) as goal_id,ARRAY(SELECT title FROM goals WHERE force=fo.force_id ORDER BY created_at) as goal_title,ARRAY(SELECT created_at FROM goals WHERE force=fo.force_id ORDER BY created_at) as goal_time,ARRAY(SELECT information_id FROM information WHERE force=fo.force_id ORDER BY created_at) as info_id,ARRAY(SELECT title FROM information WHERE force=fo.force_id ORDER BY created_at) as info_title,ARRAY(SELECT created_at FROM information WHERE force=fo.force_id ORDER BY created_at) as info_time,ARRAY(SELECT victory_id FROM victories WHERE force=fo.force_id ORDER BY created_at) as victory_id,ARRAY(SELECT title FROM victories WHERE force=fo.force_id ORDER BY created_at) as victory_title,ARRAY(SELECT created_at FROM victories WHERE force=fo.force_id ORDER BY created_at) as victory_time FROM forces as fo LEFT JOIN factions AS fa ON (fo.faction_id = fa.faction_id) LEFT JOIN players AS pl ON (fo.player_id = pl.player_id) LEFT JOIN supply_types AS su ON (fo.supply_type = su.type_id)
         var queRes = await db.query('SELECT fo.force_id,fo.name,fo.battle_tally,fo.battles_won,fo.requisition_points,fo.supply_limit,fo.supply_used,fo.faction_id,fa.name as faction,fo.player_id as owner_id,pl.display_name as owner,su.name as supply_type FROM forces as fo LEFT JOIN factions AS fa ON (fo.faction_id = fa.faction_id) LEFT JOIN players AS pl ON (fo.player_id = pl.player_id) LEFT JOIN supply_types AS su ON (fo.supply_type = su.type_id)');
-        res.status(200).json(queRes.rows);
+        var retRows = queRes.rows;
+        /*retRows.forEach(async function(row, index, arr) {
+            var goalRes = await db.query('SELECT goal_id,created_at,title FROM goals WHERE force=$1 ORDER BY created_at',
+                [ row['force_id'] ]);
+            var victoryRes = await db.query('SELECT victory_id,created_at,title FROM victories WHERE force=$1 ORDER BY created_at',
+                [ row['force_id'] ]);
+            var infoRes = await db.query('SELECT information_id,created_at,title FROM information WHERE force=$1 ORDER BY created_at',
+                [ row['force_id'] ]);
+            arr[index]['goals'] = goalRes.rows ? goalRes.rows : [];
+            arr[index]['victories'] = victoryRes.rows ? victoryRes.rows : [];
+            arr[index]['info'] = infoRes.rows ? infoRes.rows : [];
+        });*/
+        res.status(200).json(retRows);
     }catch(err){
         console.log(err);
         res.sendStatus(404);
@@ -63,7 +66,19 @@ router.get('/player/:id', async function(req, res) {
     try{
         var queRes = await db.query('SELECT fo.force_id,fo.name,fo.battle_tally,fo.battles_won,fo.requisition_points,fo.supply_limit,fo.supply_used,fo.faction_id,fa.name as faction,fo.player_id as owner_id,pl.display_name as owner,su.name as supply_type FROM forces as fo LEFT JOIN factions AS fa ON (fo.faction_id = fa.faction_id) LEFT JOIN players AS pl ON (fo.player_id = pl.player_id) LEFT JOIN supply_types AS su ON (fo.supply_type = su.type_id) WHERE fo.player_id=$1',
             [ req.params['id'] ]);
-        res.status(200).json(queRes.rows);
+        var retRows = queRes.rows;
+        /*retRows.forEach(async function(row, index, arr) {
+            var goalRes = await db.query('SELECT goal_id,created_at,title FROM goals WHERE force=$1 ORDER BY created_at',
+                [ row['force_id'] ]);
+            var victoryRes = await db.query('SELECT victory_id,created_at,title FROM victories WHERE force=$1 ORDER BY created_at',
+                [ row['force_id'] ]);
+            var infoRes = await db.query('SELECT information_id,created_at,title FROM information WHERE force=$1 ORDER BY created_at',
+                [ row['force_id'] ]);
+            arr[index]['goals'] = goalRes.rows ? goalRes.rows : [];
+            arr[index]['victories'] = victoryRes.rows ? victoryRes.rows : [];
+            arr[index]['info'] = infoRes.rows ? infoRes.rows : [];
+        });*/
+        res.status(200).json(retRows);
     }catch(err){
         console.log(err);
         res.sendStatus(404);
@@ -73,9 +88,20 @@ router.get('/player/:id', async function(req, res) {
 //READ specific force
 router.get('/:id', async function(req, res) {
     try{
+        var foID = req.params['id'];
         var queRes = await db.query('SELECT fo.force_id,fo.name,fo.battle_tally,fo.battles_won,fo.requisition_points,fo.supply_limit,fo.supply_used,fo.faction_id,fa.name as faction,fo.player_id as owner_id,pl.display_name as owner,su.name as supply_type FROM forces as fo LEFT JOIN factions AS fa ON (fo.faction_id = fa.faction_id) LEFT JOIN players AS pl ON (fo.player_id = pl.player_id) LEFT JOIN supply_types AS su ON (fo.supply_type = su.type_id) WHERE fo.force_id=$1',
-            [ req.params['id'] ]);
-        res.status(200).json(queRes.rows[0]);
+            [ foID ]);
+        var ret = queRes.rows[0];
+        /*var goalRes = await db.query('SELECT goal_id,created_at,title FROM goals WHERE force=$1 ORDER BY created_at',
+            [ foID ]);
+        var victoryRes = await db.query('SELECT victory_id,created_at,title FROM victories WHERE force=$1 ORDER BY created_at',
+            [ foID  ]);
+        var infoRes = await db.query('SELECT information_id,created_at,title FROM information WHERE force=$1 ORDER BY created_at',
+            [ foID  ]);
+        ret['goals'] = goalRes.rows ? goalRes.rows : [];
+        ret['victories'] = victoryRes.rows ? victoryRes.rows : [];
+        ret['info'] = infoRes.rows ? infoRes.rows : [];*/
+        res.status(200).json(ret);
     }catch(err){
         console.log(err);
         res.sendStatus(404);
@@ -83,14 +109,47 @@ router.get('/:id', async function(req, res) {
 });
 
 // UPDATE various fields in forces
-router.put('/update/name', async function(req, res) {
+router.put('/update', async function(req, res) {
     try{
-        if(!req.body['name'] || !req.body['id']){
+        if(!req.body['id']){
             res.sendStatus(400);
             return;
         }
-        var queRes = await db.query('UPDATE forces SET name=$1 WHERE force_id=$2 AND player_id=$3',
-            [ req.body['name'], req.body['id'], req.token['id'] ]);
+
+        var queRes = await db.query('SELECT player_id FROM forces WHERE force_id=$1',
+            [ req.body['id'] ]);
+        if(queRes.rows[0]['player_id'] != req.token['id']){
+            res.sendStatus(405);
+            return;
+        }
+
+        var query = 'UPDATE units SET ';
+        var par = [];
+        var parNum = 1;
+        var createQ = (name) => {
+            if(req.body[name]){
+                query=query+name+'=$'+parNum+',';
+                par.push(req.body[name]);
+                parNum=parNum+1;
+            }
+        }
+        //name,battle_tally,battles_won,requisition_points,supply_limit,supply_used,faction_id,supply_type
+        createQ('name');
+        createQ('battle_tally');
+        createQ('battles_won');
+        createQ('requisition_points');
+        createQ('supply_limit');
+        createQ('supply_used');
+        createQ('faction_id');
+        createQ('supply_type');
+        if(par.length === 0){
+            res.sendStatus(400);
+            return;
+        }
+        query = query.slice(0,-1);
+        query = query+" WHERE battle_id=$"+parNum;
+        par.push(req.body['id']);
+        var upRes = db.query(query,par);
         res.sendStatus(200);
     }catch(err){
         console.log(err);

@@ -6,21 +6,9 @@ var jwt = require('jsonwebtoken');
 var config = require('../config');
 
 
-var verification = function(req, res, next) {
-    jwt.verify(req.body['token'], config.initTokenSecret, function(err, decoded) {
-        if(err){
-            console.log(err);
-            res.sendStatus(401);
-        }else{
-            req.token = decoded;
-            next();
-        }
-    });
-};
-
 // Token verification middleware
-router.put('/*', verification);
-router.delete('/*', verification);
+router.put('/*', config.verification);
+router.delete('/*', config.verification);
 
 
 // READ all players
@@ -100,28 +88,30 @@ router.post('/create', async function(req, res) {
     };
 });
 
-// CREATE not allowed
-router.post('/', function(req, res) {
-    res.sendStatus(405);
-});
-
-// UPDATE not allowed
-router.put('/', function(req, res) {
-    res.sendStatus(405);
-});
-
 // UPDATE user's email address
 router.put('/update', async function(req, res) {
-    if(!req.body['key'] || !req.body['value']){
-        res.sendStatus(404);
-        return;
-    }else if(req.body['key'] === 'player_id'){
-        res.sendStatus(405);
-        return;
-    }
     try{
-        var queRes = await db.query('UPDATE players SET $1=$2 WHERE player_id=$3',
-            [req.body['key'], req.body['value'], req.token.id]);
+        var query = 'UPDATE units SET ';
+        var par = [];
+        var parNum = 1;
+        var createQ = (name) => {
+            if(req.body[name]){
+                query=query+name+'=$'+parNum+',';
+                par.push(req.body[name]);
+                parNum=parNum+1;
+            }
+        }
+        createQ('display_name');
+        createQ('email');
+        createQ('password');
+        if(par.length === 0){
+            res.sendStatus(400);
+            return;
+        }
+        query = query.slice(0,-1);
+        query = query+" WHERE player_id=$"+parNum;
+        par.push(req.token['id']);
+        var upRes = db.query(query,par);
         res.sendStatus(200);
     }catch(err){
         console.log(err);
