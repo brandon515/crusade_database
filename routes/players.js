@@ -124,9 +124,10 @@ router.delete('/delete', async function(req, res) {
     try{
         var queRes = await db.query('DELETE FROM players WHERE player_id=$1',
             [req.token.id]);
+        res.sendStatus(200);
     }catch(err){
         console.log(err);
-        res.sendStatus(204);
+        res.sendStatus(404);
     }
 });
 
