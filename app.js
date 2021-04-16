@@ -5,8 +5,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var playersRouter = require('./routes/players');
 var factionsRouter = require('./routes/factions');
 var supplyTypesRouter = require('./routes/supply_types');
