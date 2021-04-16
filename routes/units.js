@@ -45,9 +45,12 @@ router.get('/force/:id', async function(req, res) {
 });
 
 // CREATE a new unit
+// not all the columns are here because the idea is that a new unit won't have them
+// the user can update these fields after creation if they want to
 router.post('/create', async function(req, res) {
     try{
-        if(!req.body['name'] || !req.body['role'] || !req.body['faction'] || !req.body['keywords'] || !req.body['unit_type'] || !req.body['equipment'] || !req.body['psychic_powers'] || !req.body['warlord_traits'] || !req.body['power_rating'] || !req.body['crusade_points'] || !req.body['other_abilities'] || !req.body['rank'] || !req.body['battle_honors'] || !req.body['battle_scars'] || !req.body['relics'] || !req.body['force']){
+        //if(!req.body['name'] || !req.body['role'] || !req.body['faction'] || !req.body['keywords'] || !req.body['unit_type'] || !req.body['equipment'] || !req.body['psychic_powers'] || !req.body['warlord_traits'] || !req.body['power_rating'] || !req.body['crusade_points'] || !req.body['other_abilities'] || !req.body['rank'] || !req.body['battle_honors'] || !req.body['battle_scars'] || !req.body['relics'] || !req.body['force']){
+        if(!req.body['name'] || !req.body['role'] || !req.body['faction'] || !req.body['keywords'] || !req.body['unit_type'] || !req.body['equipment'] || !req.body['power_rating'] || !req.body['crusade_points'] || !req.body['other_abilities'] || !req.body['rank'] || !req.body['battle_honors'] || !req.body['battle_scars'] || !req.body['relics'] || !req.body['force']){
             res.sendStatus(400);
             return;
         }
@@ -57,7 +60,7 @@ router.post('/create', async function(req, res) {
             res.sendStatus(405);
             return;
         }
-        var inRes = await db.query('INSERT INTO units(name,role,faction,keywords,unit_type,equipment,psychic_powers,warlord_traits,power_rating,crusade_points,other_abilities,rank,battle_honors,battle_scars,relics,force) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) RETURNING unit_id',
+        var inRes = await db.query('INSERT INTO units(name,role,faction,keywords,unit_type,equipment,psychic_powers,warlord_traits,power_rating,crusade_points,other_abilities,rank,battle_honors,battle_scars,relics,force) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16) RETURNING unit_id',
 			[ req.body['name'],req.body['role'],req.body['faction'],req.body['keywords'],req.body['unit_type'],req.body['equipment'],req.body['psychic_powers'],req.body['warlord_traits'],req.body['power_rating'],req.body['crusade_points'],req.body['other_abilities'],req.body['rank'],req.body['battle_honors'],req.body['battle_scars'],req.body['relics'],req.body['force'] ]);
         res.set({
             'location' : req.baseUrl+'/'+inRes.rows[0].unit_id,
@@ -79,8 +82,6 @@ router.put('/update', async function(req, res) {
         var queRes = await db.query('SELECT fo.player_id FROM units AS u LEFT JOIN forces AS fo ON (u.force=fo.force_id) WHERE u.unit_id=$1',
             [ req.body['id'] ]);
         if(queRes.rows[0]['player_id'] != req.token['id']){
-            console.log(queRes.rows[0]['player_id']);
-            console.log(req.token['id']);
             res.sendStatus(405);
             return;
         }
@@ -134,10 +135,10 @@ router.delete('/delete', async function(req, res){
             return;
         }
 
-        var queRes = await db.query('SELECT fo.player_id FROM units AS u LEFT JOIN forces AS fo ON (u.force=fo.force_id) WHERE u.unit_id=$1',
+        var verRes = await db.query('SELECT fo.player_id FROM units AS u LEFT JOIN forces AS fo ON (u.force=fo.force_id) WHERE u.unit_id=$1',
             [ req.body['id'] ]);
-        if(queRes.rows[0]['player_id'] != req.token['id']){
-            res.sendStatus(405);
+        if(verRes.rows[0]['player_id'] != req.token['id']){
+            res.sendStatus(401);
             return;
         }
         var queRes = await db.query('DELETE FROM units WHERE unit_id=$1',
