@@ -24,8 +24,8 @@
 ***Returns:*** An array of battle objects
 - #### /:id
 
-    +***Purpose:*** Retrieves specific battle with provided :id
-    +***Returns:*** a battle object
+    + ***Purpose:*** Retrieves specific battle with provided :id
+    + ***Returns:*** a battle object
  
 - #### /unit/:id
 Purpose: Retrieves all battles assiciated with unit that has the provided :id
