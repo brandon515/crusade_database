@@ -23,7 +23,7 @@ router.get('/', function(req, res) {
 
 // READ a specific player
 router.get('/:id', function(req, res) {
-    db.query('SELECT display_name,email FROM players WHERE player_id=$1',
+    db.query('SELECT player_id,display_name,email FROM players WHERE player_id=$1',
         [req.params.id])
     .then(result => {
         if(result.rowCount === 0){
