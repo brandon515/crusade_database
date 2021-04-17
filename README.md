@@ -39,23 +39,31 @@
   + ***Return:*** an array of battle objects
 
 ### POST
-#### /create
+- #### /create
+
+  + ***Purpose:***
+  + ***Body:***
+  
+    * test
+
+  + ***Return:***
+
 ### PUT
-#### /update
-#### /add/d_psychic_powers
-#### /subtract/d_psychic_powers
-#### /add/d_ranged
-#### /subtract/d_ranged
-#### /add/d_melee
-#### /subtract/d_melee
-#### /add/agenda_1
-#### /subtract/agenda_1
-#### /add/agenda_2
-#### /subtract/agenda_2
-#### /add/agenda_3
-#### /subtract/agenda_3
+- #### /update
+- #### /add/d_psychic_powers
+- #### /subtract/d_psychic_powers
+- #### /add/d_ranged
+- #### /subtract/d_ranged
+- #### /add/d_melee
+- #### /subtract/d_melee
+- #### /add/agenda_1
+- #### /subtract/agenda_1
+- #### /add/agenda_2
+- #### /subtract/agenda_2
+- #### /add/agenda_3
+- #### /subtract/agenda_3
 ### DELETE
-#### /delete
+- #### /delete
 ## /factions
 ## /forces
 ## /goals
