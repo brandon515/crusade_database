@@ -1,6 +1,7 @@
 # Endpoints
 ## /battles
 ### OBJECT
+```
 {
   battle_id: id of current battle,
   d_psychic_powers: number of enemy units destroyed with psychic powers in this battle by this unit,
@@ -15,6 +16,7 @@
   unit_id: id of the unit associated with this battle,
   force_id: id of the force that contains the unit associated with this battle,
 }
+```
 ### GET
 #### /
 Purpose: Retrieves all battles in relation
