@@ -39,10 +39,9 @@
 + ***Purpose:*** Retrieves all battles in relation
 + ***Returns:*** An array of battle objects
 - #### /:id
-<ul>
-  <li>***Purpose:*** Retrieves specific battle with provided :id</li>
-  <li>***Returns:*** a battle object</li>
-</ul>
+***Purpose:*** Retrieves specific battle with provided :id
+
+***Returns:*** a battle object
 - #### /unit/:id
 Purpose: Retrieves all battles assiciated with unit that has the provided :id
 - #### /force/:id
