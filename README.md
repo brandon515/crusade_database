@@ -1,6 +1,7 @@
 # Endpoints
 ## Types
- - AUTH_TOKEN: a token recieved from /players/token/email/{email}/password/{password}
+ - AUTH_TOKEN: A token recieved from /players/token/email/{email}/password/{password}
+ - OPTIONAL: This field of the body is optional
 ## /battles
 ### OBJECT
 ```
@@ -20,28 +21,28 @@
 }
 ```
 ### GET
-- #### /
+- #### /battles/
 
-  + ***Purpose:*** Retrieves all battles in relation
+  + ***Purpose:*** Retrieve all battles in relation
   + ***Return:*** An array of battle objects
   
-- #### /{id}
+- #### /battles/{id}
 
   + ***Purpose:*** Retrieve specific battle with provided {id}
   + ***Return:*** a battle object
  
-- #### /unit/{id}
+- #### /battles/unit/{id}
 
   + ***Purpose:*** Retrieve all battles assiciated with unit that has the provided {id}
   + ***Return:*** an array of battle objects
 
-- #### /force/{id}
+- #### /battles/force/{id}
 
   + ***Purpose:*** Retrieve all battles assiciated with the force that has the provided {id}
   + ***Return:*** an array of battle objects
 
 ### POST
-- #### /create
+- #### /battles/create
 
   + ***Purpose:*** Create a new battle
   + ***Body:***
@@ -59,7 +60,7 @@
   + ***Return:*** 201 status with the url endpoint to retrieve this battle in the form of /battles/{id}
 
 ### PUT
-- #### /update
+- #### /battles/update
 
   + ***Purpose:*** Update a column of a battle, if the column isn't included in the body than it won't be updated
   + ***Body:*** 1 or more column is required
@@ -76,116 +77,136 @@
 
   + ***Return:*** Status code 200
 
-- #### /add/d_psychic_powers
+- #### /battles/add/d_psychic_powers
 
-  + ***Purpose:***
+  + ***Purpose:*** Add 1 to the tally of enemies defeated by psychic powers
   + ***Body:***
   
     * token: AUTH_TOKEN
+    * id: INT The id for the battle
 
-  + ***Return:***
+  + ***Return:*** Status code 200
 
-- #### /subtract/d_psychic_powers
+- #### /battles/subtract/d_psychic_powers
 
-  + ***Purpose:***
+  + ***Purpose:*** Subtract 1 to the tally of enemies defeated by psychic powers
   + ***Body:***
   
-    * 
+    * token: AUTH_TOKEN
+    * id: INT The id for the battle
 
-  + ***Return:***
+  + ***Return:*** Status code 200
 
-- #### /add/d_ranged
+- #### /battles/add/d_ranged
 
-  + ***Purpose:***
+  + ***Purpose:*** Add 1 to the tally of enemies defeated with ranged weapons
   + ***Body:***
   
-    * 
+    * token: AUTH_TOKEN
+    * id: INT The id for the battle
 
-  + ***Return:***
+  + ***Return:*** Status code 200
 
-- #### /subtract/d_ranged
+- #### /battles/subtract/d_ranged
 
-  + ***Purpose:***
+  + ***Purpose:*** Subtract 1 to the tally of enemies defeated with ranged weapons
   + ***Body:***
   
-    * 
+    * token: AUTH_TOKEN
+    * id: INT The id for the battle
 
-  + ***Return:***
+  + ***Return:*** Status code 200
 
-- #### /add/d_melee
+- #### /battles/add/d_melee
 
-  + ***Purpose:***
+  + ***Purpose:*** Add 1 to the tally of enemies defeated with melee weapons
   + ***Body:***
   
-    * 
+    * token: AUTH_TOKEN
+    * id: INT The id for the battle
 
-  + ***Return:***
+  + ***Return:*** Status code 200
 
-- #### /subtract/d_melee
+- #### /battles/subtract/d_melee
 
-  + ***Purpose:***
+  + ***Purpose:*** Subtract 1 to the tally of enemies defeated with melee weapons
   + ***Body:***
   
-    * 
+    * token: AUTH_TOKEN
+    * id: INT The id for the battle
 
-  + ***Return:***
+  + ***Return:*** Status code 200
 
-- #### /add/agenda_1
+- #### /battles/add/agenda_1
 
-  + ***Purpose:***
+  + ***Purpose:*** Add 1 to the tally of how many times the unit accomplished the first agenda
   + ***Body:***
   
-    * 
+    * token: AUTH_TOKEN
+    * id: INT The id for the battle
 
-  + ***Return:***
+  + ***Return:*** Status code 200
 
-- #### /subtract/agenda_1
+- #### /battles/subtract/agenda_1
 
-  + ***Purpose:***
+  + ***Purpose:*** Subtract 1 to the tally of how many times the unit accomplished the first agenda
   + ***Body:***
   
-    * 
+    * token: AUTH_TOKEN
+    * id: INT The id for the battle
 
-  + ***Return:***
+  + ***Return:*** Status code 200
 
-- #### /add/agenda_2
+- #### /battles/add/agenda_2
 
-  + ***Purpose:***
+  + ***Purpose:*** Add 1 to the tally of how many times the unit accomplished the second agenda
   + ***Body:***
   
-    * 
+    * token: AUTH_TOKEN
+    * id: INT The id for the battle
 
-  + ***Return:***
+  + ***Return:*** Status code 200
 
-- #### /subtract/agenda_2
+- #### /battles/subtract/agenda_2
 
-  + ***Purpose:***
+  + ***Purpose:*** Subtract 1 to the tally of how many times the unit accomplished the second agenda
   + ***Body:***
   
-    * 
+    * token: AUTH_TOKEN
+    * id: INT The id for the battle
 
-  + ***Return:***
+  + ***Return:*** Status code 200
 
-- #### /add/agenda_3
+- #### /battles/add/agenda_3
 
-  + ***Purpose:***
+  + ***Purpose:*** Add 1 to the tally of how many times the unit accomplished the third agenda
   + ***Body:***
   
-    * 
+    * token: AUTH_TOKEN
+    * id: INT The id for the battle
 
-  + ***Return:***
+  + ***Return:*** Status code 200
 
-- #### /subtract/agenda_3
+- #### /battles/subtract/agenda_3
 
-  + ***Purpose:***
+  + ***Purpose:*** Subtract 1 to the tally of how many times the unit accomplished the third agenda
   + ***Body:***
   
-    * 
+    * token: AUTH_TOKEN
+    * id: INT The id for the battle
 
-  + ***Return:***
+  + ***Return:*** Status code 200
 
 ### DELETE
-- #### /delete
+- #### /battles/delete
+
+  + ***Purpose:*** Delete
+  + ***Body:***
+  
+    * 
+
+  + ***Return:***
+
 ## /factions
 ## /forces
 ## /goals
