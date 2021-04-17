@@ -1,6 +1,23 @@
+
+<li>
+        <p>One</p>
+        <ul>
+            <li>one</li>
+            <li>two</li>
+        </ul>
+    </li>
+    <li>
+        <p>Two</p>
+        <ol start="3">
+            <li>three</li>
+            <li>four</li>
+        </ol>
+  </li>
+
+
 # Endpoints
 ## /battles
-### OBJECT
+- ### OBJECT
 ```
 {
   battle_id: INT id of current battle,
@@ -17,16 +34,18 @@
   force_id: INT id of the force that contains the unit associated with this battle,
 }
 ```
-### GET
-#### /
+- ### GET
+- #### /
 + ***Purpose:*** Retrieves all battles in relation
 + ***Returns:*** An array of battle objects
-#### /:id
-+ ***Purpose:*** Retrieves specific battle with provided :id
-+ ***Returns:*** a battle object
-#### /unit/:id
+- #### /:id
+<ul>
+  <li>***Purpose:*** Retrieves specific battle with provided :id</li>
+  <li>***Returns:*** a battle object</li>
+</ul>
+- #### /unit/:id
 Purpose: Retrieves all battles assiciated with unit that has the provided :id
-#### /force/:id
+- #### /force/:id
 ### POST
 #### /create
 ### PUT
