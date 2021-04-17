@@ -1,6 +1,6 @@
 # Endpoints
 ## /battles
-- ### OBJECT
+### OBJECT
 ```
 {
   battle_id: INT id of current battle,
@@ -17,7 +17,7 @@
   force_id: INT id of the force that contains the unit associated with this battle,
 }
 ```
-- ### GET
+### GET
 - #### /
 
   + ***Purpose:*** Retrieves all battles in relation
