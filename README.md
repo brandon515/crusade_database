@@ -1,20 +1,3 @@
-
-<li>
-        <p>One</p>
-        <ul>
-            <li>one</li>
-            <li>two</li>
-        </ul>
-    </li>
-    <li>
-        <p>Two</p>
-        <ol start="3">
-            <li>three</li>
-            <li>four</li>
-        </ol>
-  </li>
-
-
 # Endpoints
 ## /battles
 - ### OBJECT
@@ -36,12 +19,14 @@
 ```
 - ### GET
 - #### /
-+ ***Purpose:*** Retrieves all battles in relation
-+ ***Returns:*** An array of battle objects
-- #### /:id
-***Purpose:*** Retrieves specific battle with provided :id
+***Purpose:*** Retrieves all battles in relation
 
-***Returns:*** a battle object
+***Returns:*** An array of battle objects
+- #### /:id
+
+    +***Purpose:*** Retrieves specific battle with provided :id
+    +***Returns:*** a battle object
+ 
 - #### /unit/:id
 Purpose: Retrieves all battles assiciated with unit that has the provided :id
 - #### /force/:id
