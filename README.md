@@ -19,17 +19,25 @@
 ```
 - ### GET
 - #### /
-***Purpose:*** Retrieves all battles in relation
 
-***Returns:*** An array of battle objects
+  + ***Purpose:*** Retrieves all battles in relation
+  + ***Return:*** An array of battle objects
+  
 - #### /:id
 
-    + ***Purpose:*** Retrieves specific battle with provided :id
-    + ***Returns:*** a battle object
+  + ***Purpose:*** Retrieves specific battle with provided :id
+  + ***Return:*** a battle object
  
 - #### /unit/:id
-Purpose: Retrieves all battles assiciated with unit that has the provided :id
+
+  + ***Purpose:*** Retrieves all battles assiciated with unit that has the provided :id
+  + ***Return:*** an array of battle objects
+
 - #### /force/:id
+
+  + ***Purpose:*** Retrieves all battles assiciated with the force that has the provided :id
+  + ***Return:*** an array of battle objects
+
 ### POST
 #### /create
 ### PUT
