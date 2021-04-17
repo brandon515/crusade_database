@@ -40,20 +40,8 @@ router.post('/create', async function(req, res) {
 // READ all forces force_id, player_id, faction_id
 router.get('/', async function(req, res) {
   try{
-    //SELECT fo.force_id,fo.name,fo.battle_tally,fo.battles_won,fo.requisition_points,fo.supply_limit,fo.supply_used,fo.faction_id,fa.name as faction,fo.player_id as owner_id,pl.display_name as owner,su.name as supply_type,ARRAY(SELECT goal_id FROM goals WHERE force=fo.force_id ORDER BY created_at) as goal_id,ARRAY(SELECT title FROM goals WHERE force=fo.force_id ORDER BY created_at) as goal_title,ARRAY(SELECT created_at FROM goals WHERE force=fo.force_id ORDER BY created_at) as goal_time,ARRAY(SELECT information_id FROM information WHERE force=fo.force_id ORDER BY created_at) as info_id,ARRAY(SELECT title FROM information WHERE force=fo.force_id ORDER BY created_at) as info_title,ARRAY(SELECT created_at FROM information WHERE force=fo.force_id ORDER BY created_at) as info_time,ARRAY(SELECT victory_id FROM victories WHERE force=fo.force_id ORDER BY created_at) as victory_id,ARRAY(SELECT title FROM victories WHERE force=fo.force_id ORDER BY created_at) as victory_title,ARRAY(SELECT created_at FROM victories WHERE force=fo.force_id ORDER BY created_at) as victory_time FROM forces as fo LEFT JOIN factions AS fa ON (fo.faction_id = fa.faction_id) LEFT JOIN players AS pl ON (fo.player_id = pl.player_id) LEFT JOIN supply_types AS su ON (fo.supply_type = su.type_id)
     var queRes = await db.query('SELECT fo.force_id,fo.name,fo.battle_tally,fo.battles_won,fo.requisition_points,fo.supply_limit,fo.supply_used,fo.faction_id,fa.name as faction,fo.player_id as owner_id,pl.display_name as owner,su.name as supply_type FROM forces as fo LEFT JOIN factions AS fa ON (fo.faction_id = fa.faction_id) LEFT JOIN players AS pl ON (fo.player_id = pl.player_id) LEFT JOIN supply_types AS su ON (fo.supply_type = su.type_id)');
     var retRows = queRes.rows;
-    /*retRows.forEach(async function(row, index, arr) {
-      var goalRes = await db.query('SELECT goal_id,created_at,title FROM goals WHERE force=$1 ORDER BY created_at',
-        [ row['force_id'] ]);
-      var victoryRes = await db.query('SELECT victory_id,created_at,title FROM victories WHERE force=$1 ORDER BY created_at',
-        [ row['force_id'] ]);
-      var infoRes = await db.query('SELECT information_id,created_at,title FROM information WHERE force=$1 ORDER BY created_at',
-        [ row['force_id'] ]);
-      arr[index]['goals'] = goalRes.rows ? goalRes.rows : [];
-      arr[index]['victories'] = victoryRes.rows ? victoryRes.rows : [];
-      arr[index]['info'] = infoRes.rows ? infoRes.rows : [];
-    });*/
     res.status(200).json(retRows);
   }catch(err){
     console.log(err);
@@ -67,17 +55,6 @@ router.get('/player/:id', async function(req, res) {
     var queRes = await db.query('SELECT fo.force_id,fo.name,fo.battle_tally,fo.battles_won,fo.requisition_points,fo.supply_limit,fo.supply_used,fo.faction_id,fa.name as faction,fo.player_id as owner_id,pl.display_name as owner,su.name as supply_type FROM forces as fo LEFT JOIN factions AS fa ON (fo.faction_id = fa.faction_id) LEFT JOIN players AS pl ON (fo.player_id = pl.player_id) LEFT JOIN supply_types AS su ON (fo.supply_type = su.type_id) WHERE fo.player_id=$1',
       [ req.params['id'] ]);
     var retRows = queRes.rows;
-    /*retRows.forEach(async function(row, index, arr) {
-      var goalRes = await db.query('SELECT goal_id,created_at,title FROM goals WHERE force=$1 ORDER BY created_at',
-        [ row['force_id'] ]);
-      var victoryRes = await db.query('SELECT victory_id,created_at,title FROM victories WHERE force=$1 ORDER BY created_at',
-        [ row['force_id'] ]);
-      var infoRes = await db.query('SELECT information_id,created_at,title FROM information WHERE force=$1 ORDER BY created_at',
-        [ row['force_id'] ]);
-      arr[index]['goals'] = goalRes.rows ? goalRes.rows : [];
-      arr[index]['victories'] = victoryRes.rows ? victoryRes.rows : [];
-      arr[index]['info'] = infoRes.rows ? infoRes.rows : [];
-    });*/
     res.status(200).json(retRows);
   }catch(err){
     console.log(err);
@@ -92,15 +69,6 @@ router.get('/:id', async function(req, res) {
     var queRes = await db.query('SELECT fo.force_id,fo.name,fo.battle_tally,fo.battles_won,fo.requisition_points,fo.supply_limit,fo.supply_used,fo.faction_id,fa.name as faction,fo.player_id as owner_id,pl.display_name as owner,su.name as supply_type FROM forces as fo LEFT JOIN factions AS fa ON (fo.faction_id = fa.faction_id) LEFT JOIN players AS pl ON (fo.player_id = pl.player_id) LEFT JOIN supply_types AS su ON (fo.supply_type = su.type_id) WHERE fo.force_id=$1',
       [ foID ]);
     var ret = queRes.rows[0];
-    /*var goalRes = await db.query('SELECT goal_id,created_at,title FROM goals WHERE force=$1 ORDER BY created_at',
-      [ foID ]);
-    var victoryRes = await db.query('SELECT victory_id,created_at,title FROM victories WHERE force=$1 ORDER BY created_at',
-      [ foID  ]);
-    var infoRes = await db.query('SELECT information_id,created_at,title FROM information WHERE force=$1 ORDER BY created_at',
-      [ foID  ]);
-    ret['goals'] = goalRes.rows ? goalRes.rows : [];
-    ret['victories'] = victoryRes.rows ? victoryRes.rows : [];
-    ret['info'] = infoRes.rows ? infoRes.rows : [];*/
     res.status(200).json(ret);
   }catch(err){
     console.log(err);
