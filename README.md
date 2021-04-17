@@ -1,7 +1,6 @@
-# Crusade Database
-## Endpoints
-### /battles
-#### OBJECT
+# Endpoints
+## /battles
+### OBJECT
 `{
   battle_id: id of current battle,
   d_psychic_powers: number of enemy units destroyed with psychic powers in this battle by this unit,
@@ -16,40 +15,40 @@
   unit_id: id of the unit associated with this battle,
   force_id: id of the force that contains the unit associated with this battle,
 }`
-#### GET
-##### /
+### GET
+#### /
 Purpose: Retrieves all battles in relation
 Returns: An array of battle objects
-##### /:id
+#### /:id
 Purpose: Retrieves specific battle with provided :id
-##### /unit/:id
+#### /unit/:id
 Purpose: Retrieves all battles assiciated with unit that has the provided :id
-##### /force/:id
-#### POST
-##### /create
-#### PUT
-##### /update
-##### /add/d_psychic_powers
-##### /subtract/d_psychic_powers
-##### /add/d_ranged
-##### /subtract/d_ranged
-##### /add/d_melee
-##### /subtract/d_melee
-##### /add/agenda_1
-##### /subtract/agenda_1
-##### /add/agenda_2
-##### /subtract/agenda_2
-##### /add/agenda_3
-##### /subtract/agenda_3
-#### DELETE
-##### /delete
-### /factions
-### /forces
-### /goals
-### /information
-### /players
-### /ranks
-### /roles
-### /supply_types
-### /units
-### /victories
+#### /force/:id
+### POST
+#### /create
+### PUT
+#### /update
+#### /add/d_psychic_powers
+#### /subtract/d_psychic_powers
+#### /add/d_ranged
+#### /subtract/d_ranged
+#### /add/d_melee
+#### /subtract/d_melee
+#### /add/agenda_1
+#### /subtract/agenda_1
+#### /add/agenda_2
+#### /subtract/agenda_2
+#### /add/agenda_3
+#### /subtract/agenda_3
+### DELETE
+#### /delete
+## /factions
+## /forces
+## /goals
+## /information
+## /players
+## /ranks
+## /roles
+## /supply_types
+## /units
+## /victories
