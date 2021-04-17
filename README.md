@@ -3,18 +3,18 @@
 ### OBJECT
 ```
 {
-  battle_id: id of current battle,
-  d_psychic_powers: number of enemy units destroyed with psychic powers in this battle by this unit,
-  d_ranged: number of enemy units destroyed with ranged weapons in this battle by this unit,
-  d_melee: number of enemy units destroyed with melee weapons in this battle by this unit,
-  agenda_1: tally of how many times this unit accomplished the first agenda in this battle,
-  agenda_2: tally of how many times this unit accomplished the second agenda in this battle,
-  agenda_3: tally of how many times this unit accomplished the third agenda in this battle,
-  victory: TRUE if the associated unit was victorious in this battle, FALSE if they were not victorious,
-  unit: name of the associated unit,
-  force: name of the force associated with the above unit,
-  unit_id: id of the unit associated with this battle,
-  force_id: id of the force that contains the unit associated with this battle,
+  battle_id: INT id of current battle,
+  d_psychic_powers: INT number of enemy units destroyed with psychic powers in this battle by this unit,
+  d_ranged: INT number of enemy units destroyed with ranged weapons in this battle by this unit,
+  d_melee: INT number of enemy units destroyed with melee weapons in this battle by this unit,
+  agenda_1: INT tally of how many times this unit accomplished the first agenda in this battle,
+  agenda_2: INT tally of how many times this unit accomplished the second agenda in this battle,
+  agenda_3: INT tally of how many times this unit accomplished the third agenda in this battle,
+  victory: BOOLEAN TRUE if the associated unit was victorious in this battle, FALSE if they were not victorious,
+  unit: STRING name of the associated unit,
+  force: STRING name of the force associated with the above unit,
+  unit_id: INT id of the unit associated with this battle,
+  force_id: INT id of the force that contains the unit associated with this battle,
 }
 ```
 ### GET
