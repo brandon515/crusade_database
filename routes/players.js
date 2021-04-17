@@ -68,15 +68,20 @@ router.get('/token/email/:email/password/:password', async function(req,res) {
 // CREATE a new player, email uniqueness is promised at the db level
 router.post('/create', async function(req, res) {
   try{
+    if(!req.body['display_name'] || !req.body['password'] || !req.body['email']){
+      res.sendStatus(400);
+      return;
+    }
     var hash = await crypt.hash(req.body['password'])
     var queRes = await db.query('INSERT INTO players(display_name,email,password) VALUES ($1, $2, $3) RETURNING player_id', 
-      [req.body['displayname'], req.body['email'], hash]);
+      [req.body['display_name'], req.body['email'], hash]);
     res.set({
       'Content-Type': 'json',
       'location' : req.baseUrl+'/'+queRes.rows[0].player_id,
     }).sendStatus(201);
   }catch(err){
     if(err.code === '23505'){
+      console.log(err);
       res.sendStatus(409);
     }else{
       console.log(err)
@@ -100,7 +105,12 @@ router.put('/update', async function(req, res) {
     }
     createQ('display_name');
     createQ('email');
-    createQ('password');
+    if(req.body['password']){
+      query=query+name+'=$'+parNum+',';
+      var hash = await crypt.hash(req.body['password']);
+      par.push(hash);
+      parNum=parNum+1;
+    }
     if(par.length === 0){
       res.sendStatus(400);
       return;
