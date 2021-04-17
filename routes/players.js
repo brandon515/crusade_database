@@ -12,29 +12,26 @@ router.delete('/*', config.verification);
 
 
 // READ all players
-router.get('/', function(req, res) {
-  db.query('SELECT player_id,display_name,email FROM players;')
-    .then(result => res.status(200).json(result.rows))
-    .catch(err => {
+router.get('/', async function(req, res) {
+  try{
+    var queRes = awaitdb.query('SELECT player_id,display_name,email FROM players;')
+    res.status(200).json(queRes.rows)
+  }catch(err){
       console.log(err);
       res.sendStatus(404);
-    });
+  }
 });
 
 // READ a specific player
-router.get('/:id', function(req, res) {
-  db.query('SELECT player_id,display_name,email FROM players WHERE player_id=$1',
-    [req.params.id])
-  .then(result => {
-    if(result.rowCount === 0){
-      res.sendStatus(404);
-    }else{
-      res.status(200).json(result.rows[0])
-    }
-  }).catch(err => {
+router.get('/:id', async function(req, res) {
+  try{
+    var queRes = await db.query('SELECT player_id,display_name,email FROM players WHERE player_id=$1',
+      [req.params.id])
+    res.status(200).json(queRes.rows[0]);
+  }catch(err){
     console.log(err);
     res.sendStatus(404);
-  });
+  }
 });
 
 // READ a token for the email/password combo (this is logging in)
