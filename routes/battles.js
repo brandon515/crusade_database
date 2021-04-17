@@ -121,7 +121,6 @@ router.put('/update', async function(req, res) {
       }
     }
     //unit,d_psychic_powers,d_ranged,d_melee,agenda_1,agenda_2,agenda_3,victory
-    createQ('name');
     createQ('d_psychic_powers');
     createQ('d_ranged');
     createQ('d_melee');
