@@ -16,7 +16,7 @@ router.get('/', async function(req, res) {
 //READ specific faction
 router.get('/id/:id', async function(req, res) {
   try{
-    var queRes = await db.query('SELECT name,description FROM factions WHERE faction_id=$1',
+    var queRes = await db.query('SELECT * FROM factions WHERE faction_id=$1',
       [ req.params['id'] ]);
     res.status(200).json(queRes.rows[0]);
   }catch(err){
