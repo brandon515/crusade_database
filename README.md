@@ -2,7 +2,7 @@
 ## Types
  - AUTH_TOKEN: A token recieved from /players/token/email/{email}/password/{password}
  - OPTIONAL: This field of the body is optional
-## /battles
+## Battles
 ### OBJECT
 ```
 {
@@ -29,17 +29,17 @@
 - #### /battles/{id}
 
   + ***Purpose:*** Retrieve specific battle with provided {id}
-  + ***Return:*** a battle object
+  + ***Return:*** A battle object
  
 - #### /battles/unit/{id}
 
   + ***Purpose:*** Retrieve all battles assiciated with unit that has the provided {id}
-  + ***Return:*** an array of battle objects
+  + ***Return:*** An array of battle objects
 
 - #### /battles/force/{id}
 
   + ***Purpose:*** Retrieve all battles assiciated with the force that has the provided {id}
-  + ***Return:*** an array of battle objects
+  + ***Return:*** An array of battle objects
 
 ### POST
 - #### /battles/create
@@ -200,23 +200,218 @@
 ### DELETE
 - #### /battles/delete
 
-  + ***Purpose:*** Delete
+  + ***Purpose:*** Delete a battle
   + ***Body:***
   
-    * 
+    * token: AUTH_TOKEN
+    * id: INT The id for the battle
 
-  + ***Return:***
+  + ***Return:*** Status code 200
 
-## /factions
+## Factions
+### OBJECT
+```
+{
+  faction_id: INT the id of the faction
+  name: STRING the name of the faction
+  description: STRING a short description of the faction
+}
+```
+### GET
+- #### /factions/
+
+  + ***Purpose:*** Retrieve all factions in relation
+  + ***Return:*** An array of faction objects
+  
+- #### /factions/{id}
+
+  + ***Purpose:*** Retrieve specific faction with provided {id}
+  + ***Return:*** A faction object
+ 
 ## /forces
+### OBJECT
+```
+{
+  force_id: INT the id of the force
+  name: STRING the name of the force
+  battle_tally: INT a tally of the total battles this force has fought
+  battles_won: INT a tally of the total battles this force has won
+  requisition_points: INT number of requision points this force has
+  supply_limit: INT the supply limit of this force
+  supply_used: INT the total amount of supply used 
+  faction_id: INT the id of the faction of the force
+  faction: STRING the name of the faction
+  owner_id: INT the id of the player who owns this force
+  owner: STRING the name of the player who owns this force
+}
+```
+### GET
+- #### /forces/
+
+  + ***Purpose:*** Retrieve all forces in relation
+  + ***Return:*** An array of force objects
+  
+- #### /forces/{id}
+
+  + ***Purpose:*** Retrieve specific force with provided {id}
+  + ***Return:*** A force object
+
+- #### /forces/player/{id}
+
+  + ***Purpose:*** Retrieve forces that are owned by the player associated with {id}
+  + ***Return:*** An array of force objects
+
+### POST
+- #### /forces/create
+
+  + ***Purpose:*** Create a new force
+  + ***Body:***
+  
+    * token: AUTH_TOKEN
+    * faction_id: INT a faction_id from a row of factions table
+    * supply_type: INT a type_id from a row of supply_types table
+    * name: STRING the name of this force
+
+  + ***Return:*** Status code 200 and the location of this force in the form of /forces/{id}
+
+### PUT
+- #### /forces/update
+
+  + ***Purpose:***
+  + ***Body:***
+  
+    * token: AUTH_TOKEN
+
+  + ***Return:*** Status code 200
+- #### /forces/add/supply_used
+
+  + ***Purpose:*** 
+  + ***Body:***
+  
+    * token: AUTH_TOKEN
+
+  + ***Return:*** Status code 200 
+- #### /forces/subtract/supply_used
+
+  + ***Purpose:*** 
+  + ***Body:***
+  
+    * token: AUTH_TOKEN
+
+  + ***Return:*** Status code 200 
+- #### /forces/add/supply_limit
+
+  + ***Purpose:*** 
+  + ***Body:***
+  
+    * token: AUTH_TOKEN
+
+  + ***Return:*** Status code 200 
+- #### /forces/subtract/supply_limit
+
+  + ***Purpose:*** 
+  + ***Body:***
+  
+    * token: AUTH_TOKEN
+
+  + ***Return:*** Status code 200 
+- #### /forces/add/requisition_points
+
+  + ***Purpose:*** 
+  + ***Body:***
+  
+    * token: AUTH_TOKEN
+
+  + ***Return:*** Status code 200 
+- #### /forces/subtract/requisition_points
+
+  + ***Purpose:*** 
+  + ***Body:***
+  
+    * token: AUTH_TOKEN
+
+  + ***Return:*** Status code 200 
+- #### /forces/add/battle_tally
+
+  + ***Purpose:*** 
+  + ***Body:***
+  
+    * token: AUTH_TOKEN
+
+  + ***Return:*** Status code 200 
+- #### /forces/subtract/battle_tally
+
+  + ***Purpose:*** 
+  + ***Body:***
+  
+    * token: AUTH_TOKEN
+
+  + ***Return:*** Status code 200 
+- #### /forces/add/battles_won
+
+  + ***Purpose:*** 
+  + ***Body:***
+  
+    * token: AUTH_TOKEN
+
+  + ***Return:*** Status code 200 
+- #### /forces/subtract/battles_won
+
+  + ***Purpose:*** 
+  + ***Body:***
+  
+    * token: AUTH_TOKEN
+
+  + ***Return:*** Status code 200 
+### DELETE
+- #### /forces/delete
+
+  + ***Purpose:*** 
+  + ***Body:***
+  
+    * token: AUTH_TOKEN
+
+  + ***Return:*** Status code 200 
 ## /goals
+### GET
+### POST
+### PUT
+### DELETE
 ## /information
+### GET
+### POST
+### PUT
+### DELETE
 ## /players
+### GET
+### POST
+### PUT
+### DELETE
 ## /ranks
+### GET
+### POST
+### PUT
+### DELETE
 ## /roles
+### GET
+### POST
+### PUT
+### DELETE
 ## /supply_types
+### GET
+### POST
+### PUT
+### DELETE
 ## /units
+### GET
+### POST
+### PUT
+### DELETE
 ## /victories
+### GET
+### POST
+### PUT
+### DELETE
 
 
 
