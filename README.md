@@ -19,8 +19,8 @@
 ```
 ### GET
 #### /
->Purpose: Retrieves all battles in relation
->Returns: An array of battle objects
++ ***Purpose***: Retrieves all battles in relation
++ Returns: An array of battle objects
 #### /:id
 Purpose: Retrieves specific battle with provided :id
 #### /unit/:id
