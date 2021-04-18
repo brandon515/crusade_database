@@ -23,7 +23,7 @@ router.get('/', async function(req, res) {
 // READ specific unit
 router.get('/:id', async function(req, res) {
   try{
-    var queRes = await db.query('SELECT u.name,u.keywords,u.unit_type,u.equipment,u.psychic_powers,u.warlord_traits,u.power_rating,u.experience_points,u.crusade_points,u.other_abilities,u.battle_honors,u.battle_scars,u.relics,fa.name as faction,fa.description as faction_des,ro.name as role,ra.name as rank,fo.name as force,fo.force_id FROM units AS u LEFT JOIN factions AS fa ON (u.faction = fa.faction_id) LEFT JOIN roles AS ro ON (u.rank = ro.role_id) LEFT JOIN ranks AS ra ON (u.rank = ra.rank_id) LEFT JOIN forces AS fo ON (u.force = fo.force_id) WHERE u.unit_id=$1',
+    var queRes = await db.query('SELECT u.unit_id,u.name,u.keywords,u.unit_type,u.equipment,u.psychic_powers,u.warlord_traits,u.power_rating,u.experience_points,u.crusade_points,u.other_abilities,u.battle_honors,u.battle_scars,u.relics,fa.name as faction,fa.description as faction_des,ro.name as role,ra.name as rank,fo.name as force,fo.force_id FROM units AS u LEFT JOIN factions AS fa ON (u.faction = fa.faction_id) LEFT JOIN roles AS ro ON (u.rank = ro.role_id) LEFT JOIN ranks AS ra ON (u.rank = ra.rank_id) LEFT JOIN forces AS fo ON (u.force = fo.force_id) WHERE u.unit_id=$1',
     [ req.params['id'] ]);
     res.status(200).json(queRes.rows[0]);
   }catch(err){
@@ -35,7 +35,7 @@ router.get('/:id', async function(req, res) {
 // READ units of a force
 router.get('/force/:id', async function(req, res) {
   try{
-    var queRes = await db.query('SELECT u.name,u.keywords,u.unit_type,u.equipment,u.psychic_powers,u.warlord_traits,u.power_rating,u.experience_points,u.crusade_points,u.other_abilities,u.battle_honors,u.battle_scars,u.relics,fa.name as faction,fa.description as faction_des,ro.name as role,ra.name as rank,fo.name as force,fo.force_id FROM units AS u LEFT JOIN factions AS fa ON (u.faction = fa.faction_id) LEFT JOIN roles AS ro ON (u.rank = ro.role_id) LEFT JOIN ranks AS ra ON (u.rank = ra.rank_id) LEFT JOIN forces AS fo ON (u.force = fo.force_id) WHERE u.force=$1',
+    var queRes = await db.query('SELECT u.unit_id,u.name,u.keywords,u.unit_type,u.equipment,u.psychic_powers,u.warlord_traits,u.power_rating,u.experience_points,u.crusade_points,u.other_abilities,u.battle_honors,u.battle_scars,u.relics,fa.name as faction,fa.description as faction_des,ro.name as role,ra.name as rank,fo.name as force,fo.force_id FROM units AS u LEFT JOIN factions AS fa ON (u.faction = fa.faction_id) LEFT JOIN roles AS ro ON (u.rank = ro.role_id) LEFT JOIN ranks AS ra ON (u.rank = ra.rank_id) LEFT JOIN forces AS fo ON (u.force = fo.force_id) WHERE u.force=$1',
     [ req.params['id'] ]);
     res.status(200).json(queRes.rows);
   }catch(err){
@@ -50,7 +50,7 @@ router.get('/force/:id', async function(req, res) {
 router.post('/create', async function(req, res) {
   try{
     //if(!req.body['name'] || !req.body['role'] || !req.body['faction'] || !req.body['keywords'] || !req.body['unit_type'] || !req.body['equipment'] || !req.body['psychic_powers'] || !req.body['warlord_traits'] || !req.body['power_rating'] || !req.body['crusade_points'] || !req.body['other_abilities'] || !req.body['rank'] || !req.body['battle_honors'] || !req.body['battle_scars'] || !req.body['relics'] || !req.body['force']){
-    if(!req.body['name'] || !req.body['role'] || !req.body['faction'] || !req.body['keywords'] || !req.body['unit_type'] || !req.body['equipment'] || !req.body['power_rating'] || !req.body['crusade_points'] || !req.body['other_abilities'] || !req.body['rank'] || !req.body['battle_honors'] || !req.body['battle_scars'] || !req.body['relics'] || !req.body['force']){
+    if(!req.body['name'] || !req.body['role'] || !req.body['faction'] || !req.body['keywords'] || !req.body['unit_type'] || !req.body['equipment'] || !req.body['power_rating'] || !req.body['other_abilities'] || !req.body['rank'] || !req.body['battle_honors'] || !req.body['battle_scars'] || !req.body['relics'] || !req.body['force']){
       res.sendStatus(400);
       return;
     }
@@ -60,8 +60,8 @@ router.post('/create', async function(req, res) {
       res.sendStatus(405);
       return;
     }
-    var inRes = await db.query('INSERT INTO units(name,role,faction,keywords,unit_type,equipment,psychic_powers,warlord_traits,power_rating,crusade_points,other_abilities,rank,battle_honors,battle_scars,relics,force) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16) RETURNING unit_id',
-			[ req.body['name'],req.body['role'],req.body['faction'],req.body['keywords'],req.body['unit_type'],req.body['equipment'],req.body['psychic_powers'],req.body['warlord_traits'],req.body['power_rating'],req.body['crusade_points'],req.body['other_abilities'],req.body['rank'],req.body['battle_honors'],req.body['battle_scars'],req.body['relics'],req.body['force'] ]);
+    var inRes = await db.query('INSERT INTO units(name,role,faction,keywords,unit_type,equipment,psychic_powers,warlord_traits,power_rating,other_abilities,rank,battle_honors,battle_scars,relics,force) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) RETURNING unit_id',
+			[ req.body['name'],req.body['role'],req.body['faction'],req.body['keywords'],req.body['unit_type'],req.body['equipment'],req.body['psychic_powers'],req.body['warlord_traits'],req.body['power_rating'],req.body['other_abilities'],req.body['rank'],req.body['battle_honors'],req.body['battle_scars'],req.body['relics'],req.body['force'] ]);
     res.set({
       'location' : req.baseUrl+'/'+inRes.rows[0].unit_id,
     }).sendStatus(201);
