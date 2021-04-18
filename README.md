@@ -1,7 +1,7 @@
 # Endpoints
 ## Types
  - AUTH_TOKEN: A token recieved from /players/token/email/{email}/password/{password}
- - OPTIONAL: This field of the body is optional
+ - OPTIONAL: This field of the body is optional, however one of the optional field is neccesary
 ## Battles
 ### OBJECT
 ```
