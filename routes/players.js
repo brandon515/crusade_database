@@ -6,10 +6,30 @@ var jwt = require('jsonwebtoken');
 var config = require('../config');
 
 
+// Refreshing the token, same verification but only for the get request
+router.get('/refresh', config.verification);
+
 // Token verification middleware
 router.put('/*', config.verification);
 router.delete('/*', config.verification);
 
+// READ a new token if the last token hasn't expired yet
+router.get('/refresh', async function(req, res) {
+  try{
+    var token = await jwt.sign({
+      id: res.token['id'],
+    }, config.initTokenSecret, {
+      expiresIn: config.initTokenExpires+'h',
+    });
+    res.status(200).json({
+      token: token,
+      expires: config.initTokenExpires,
+    });
+  }catch(err){
+    console.log(err);
+    res.sendStatus(405);
+  }
+})
 
 // READ all players
 router.get('/', async function(req, res) {
@@ -36,7 +56,6 @@ router.get('/:id', async function(req, res) {
 
 // READ a token for the email/password combo (this is logging in)
 router.get('/token/email/:email/password/:password', async function(req,res) {
-  console.log("here");
   try{
     var result = await db.query('SELECT player_id,password FROM players WHERE email=$1',
       [req.params['email']]);
@@ -44,9 +63,7 @@ router.get('/token/email/:email/password/:password', async function(req,res) {
     var id = result.rows[0].player_id;
     if(crypt.verify(hash, req.params['password'])){
       var token = await jwt.sign({
-        email: req.params['email'],
         id: id,
-        started: new Date().toString(),
       }, config.initTokenSecret, {
         expiresIn: config.initTokenExpires+'h',
       });
