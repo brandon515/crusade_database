@@ -1,3 +1,7 @@
+# General Information
+pm2 is used to daemonize the express instance and then reverse proxied by nginx. The https is handled by certbot (LetsEncrpyt).
+
+In order to restart the instance for any reason, use "pm2 restart 0".
 # Endpoints
 ## Types
  - AUTH_TOKEN: A token recieved from /players/token/email/{email}/password/{password}
