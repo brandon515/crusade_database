@@ -565,7 +565,7 @@
 - #### /players/token/email/{email}/password/{password}
 
   + ***Purpose:*** Retrieve an AUTH_TOKEN
-  + ***Return:*** An AUTH_TOKEN
+  + ***Return:*** An AUTH_TOKEN variable at token
 
 ### POST
 - #### /players/create
