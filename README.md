@@ -320,7 +320,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * faction_id: INT a faction_id from a row of factions table
+    * faction_id: INT a faction_id from a row of factions table
     * supply_type: INT a type_id from a row of supply_types table
     * name: STRING the name of this force
 
@@ -539,7 +539,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * force: INT An id from the force table of the force that this goal is associated with
+    * force: INT An id from the force table of the force that this goal is associated with
     * title: STRING A one line summary of the goal
     * text: STRING An in depth description of the goal
 
@@ -612,7 +612,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * force: INT An id from the force table of the force that this piece of information is associated with
+    * force: INT An id from the force table of the force that this piece of information is associated with
     * title: STRING A one line summary of the piece of information
     * text: STRING An in depth description of the piece of information
 
@@ -695,7 +695,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * display_name: STRING OPTIONAL The value for diplay name to be changed to
+    * display_name: STRING OPTIONAL The value for diplay name to be changed to
     * email: STRING OPTIONAL The value for email to be changed to
     * password: STRING OPTIONAL The value for password to be changed to 
 
@@ -823,7 +823,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * name: STRING The name of the new unit
+    * name: STRING The name of the new unit
     * role: STRING The role of the new unit
     * faction: INT The id of the faction that this unit belongs to
     * keywords: STRING Selectable keywords
