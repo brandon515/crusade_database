@@ -76,7 +76,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:*** 1 or more column is required
   
-        * id: INT the id of the battle that is being updated
+    * id: INT the id of the battle that is being updated
     * d_psychic_powers: INT OPTIONAL number of enemy units destroyed with psychic powers in this battle by this unit,
     * d_ranged: INT OPTIONAL number of enemy units destroyed with ranged weapons in this battle by this unit,
     * d_melee: INT OPTIONAL number of enemy units destroyed with melee weapons in this battle by this unit,
@@ -96,7 +96,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT The id for the battle
+    * id: INT The id for the battle
 
   + ***Return:*** Status code 200
 
@@ -109,7 +109,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT The id for the battle
+    * id: INT The id for the battle
 
   + ***Return:*** Status code 200
 
@@ -122,7 +122,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT The id for the battle
+    * id: INT The id for the battle
 
   + ***Return:*** Status code 200
 
@@ -135,7 +135,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT The id for the battle
+    * id: INT The id for the battle
 
   + ***Return:*** Status code 200
 
@@ -148,7 +148,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT The id for the battle
+    * id: INT The id for the battle
 
   + ***Return:*** Status code 200
 
@@ -161,7 +161,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT The id for the battle
+    * id: INT The id for the battle
 
   + ***Return:*** Status code 200
 
@@ -174,7 +174,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT The id for the battle
+    * id: INT The id for the battle
 
   + ***Return:*** Status code 200
 
@@ -187,7 +187,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT The id for the battle
+    * id: INT The id for the battle
 
   + ***Return:*** Status code 200
 
@@ -200,7 +200,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT The id for the battle
+    * id: INT The id for the battle
 
   + ***Return:*** Status code 200
 
@@ -213,7 +213,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT The id for the battle
+    * id: INT The id for the battle
 
   + ***Return:*** Status code 200
 
@@ -226,7 +226,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT The id for the battle
+    * id: INT The id for the battle
 
   + ***Return:*** Status code 200
 
@@ -239,7 +239,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT The id for the battle
+    * id: INT The id for the battle
 
   + ***Return:*** Status code 200
 
@@ -253,7 +253,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT The id for the battle
+    * id: INT The id for the battle
 
   + ***Return:*** Status code 200
 
@@ -336,7 +336,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT the id of the force being updated
+    * id: INT the id of the force being updated
     * name: STRING OPTIONAL the name of this force
     * battle_tally: INT OPTIONAL the tally of battles fought by this force
     * battles_won: INT OPTIONAL the tally of battles won by this force
@@ -357,7 +357,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT the id of the force
+    * id: INT the id of the force
     * amount: INT the amount that the supply_used is to be changed
 
   + ***Return:*** Status code 200 
@@ -371,7 +371,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT the id of the force
+    * id: INT the id of the force
     * amount: INT the amount that the supply_used is to be changed
 
   + ***Return:*** Status code 200 
@@ -385,7 +385,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT the id of the force
+    * id: INT the id of the force
     * amount: INT the amount that the supply_used is to be changed
 
   + ***Return:*** Status code 200 
@@ -399,7 +399,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT the id of the force
+    * id: INT the id of the force
     * amount: INT the amount that the supply_used is to be changed
 
   + ***Return:*** Status code 200 
@@ -413,7 +413,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT the id of the force
+    * id: INT the id of the force
     * amount: INT the amount that the supply_used is to be changed
 
   + ***Return:*** Status code 200 
@@ -427,7 +427,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT the id of the force
+    * id: INT the id of the force
     * amount: INT the amount that the supply_used is to be changed
 
   + ***Return:*** Status code 200
@@ -441,7 +441,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT the id of the force
+    * id: INT the id of the force
     * amount: INT the amount that the supply_used is to be changed
 
   + ***Return:*** Status code 200
@@ -455,7 +455,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT the id of the force
+    * id: INT the id of the force
     * amount: INT the amount that the supply_used is to be changed
 
   + ***Return:*** Status code 200 
@@ -469,7 +469,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT the id of the force
+    * id: INT the id of the force
     * amount: INT the amount that the supply_used is to be changed
 
   + ***Return:*** Status code 200
@@ -483,7 +483,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT the id of the force
+    * id: INT the id of the force
     * amount: INT the amount that the supply_used is to be changed
 
   + ***Return:*** Status code 200
@@ -498,7 +498,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT id of the force to be deleted
+    * id: INT id of the force to be deleted
 
   + ***Return:*** Status code 200 
 
@@ -555,7 +555,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT the id of the goal to be updated
+    * id: INT the id of the goal to be updated
     * title: STRING OPTIONAL A one line summary of the goal
     * text: STRING OPTIONAL An in depth description of the goal
 
@@ -571,7 +571,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT the id of the goal to be deleted
+    * id: INT the id of the goal to be deleted
 
   + ***Return:*** Status code 200 
 
@@ -628,7 +628,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT the id of the piece of information to be updated
+    * id: INT the id of the piece of information to be updated
     * title: STRING OPTIONAL A one line summary of the piece of information
     * text: STRING OPTIONAL An in depth description of the piece of information
 
@@ -644,7 +644,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT the id of the piece of information to be deleted
+    * id: INT the id of the piece of information to be deleted
 
   + ***Return:*** Status code 200 
 
@@ -849,7 +849,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT the id of the unit to be updated
+    * id: INT the id of the unit to be updated
     * name: STRING OPTIONAL display name of the unit
     * faction: INT OPTIONAL id from factions table
     * keywords: STRING OPTIONAL
@@ -878,7 +878,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT the id of the unit to be deleted
+    * id: INT the id of the unit to be deleted
 
   + ***Return:*** Status code 200 
 
@@ -935,7 +935,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT the id of the victory to be updated
+    * id: INT the id of the victory to be updated
     * title: STRING OPTIONAL A one line summary of the victory
     * text: STRING OPTIONAL An in depth description of the victory
 
@@ -951,6 +951,6 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * id: INT the id of the victory to be deleted
+    * id: INT the id of the victory to be deleted
 
   + ***Return:*** Status code 200 
