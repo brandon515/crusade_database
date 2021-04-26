@@ -919,7 +919,7 @@ In order to restart the instance for any reason, use "pm2 restart 0".
 
   + ***Body:***
   
-        * force: INT An id from the force table of the force that this victory is associated with
+    * force: INT An id from the force table of the force that this victory is associated with
     * title: STRING A one line summary of the victory
     * text: STRING An in depth description of the victory
 
