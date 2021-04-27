@@ -65,7 +65,7 @@ router.get('/token/email/:email/password/:password', async function(req,res) {
       var token = await jwt.sign({
         id: id,
       }, config.initTokenSecret, {
-        expiresIn: config.initTokenExpires+'h',
+        expiresIn: config.initTokenExpires*24+'h',
       });
       res.status(200).json({
         token: token,
